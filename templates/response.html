@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Verification Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #333;
+            border: 1px solid #444;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #555;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #444;
+        }
+        .positive {
+            color: #00ff00;
+        }
+        .negative {
+            color: #ff0000;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+        .table-category {
+            margin-top: 30px;
+        }
+        .deliverable {
+            color: #00ff00;
+        }
+        .undeliverable {
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Email Verification Response</h1>
+
+        <div class="table-category">
+            <h2>General Category:</h2>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                {% set general_keys = ['full_name', 'gender', 'state', 'reason', 'domain', 'user'] %}
+                {% for key, value in data.items() if key in general_keys %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td class="{{ 'deliverable' if value == 'deliverable' else 'undeliverable' }}">{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="table-category">
+            <h2>Attributes Category:</h2>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                {% set attributes_keys = ['accept-all', 'disposable', 'free', 'role', 'tag'] %}
+                {% for key, value in data.items() if key in attributes_keys %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td class="{{ 'deliverable' if value == 'deliverable' else 'undeliverable' }}">{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="table-category">
+            <h2>Mail Server Category:</h2>
+            <table>
+                <tr>
+                    <th>Key</th>
+                    <th>Value</th>
+                </tr>
+                {% set mail_server_keys = ['smtp_provider', 'mx_record'] %}
+                {% for key, value in data.items() if key in mail_server_keys %}
+                    <tr>
+                        <td>{{ key }}</td>
+                        <td class="{{ 'deliverable' if value == 'deliverable' else 'undeliverable' }}">{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>
