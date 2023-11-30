@@ -3,8 +3,12 @@ import requests
 
 app = Flask(__name__)
 
-# The API endpoint for email verification
-API_URL = "https://emailable.com/test-email-verifier"
+# The new API endpoint for email verification
+API_URL = "https://api.emailable.com/v1/verify"
+
+# Your API key
+API_KEY = "live_acec266ebba3820e650e"
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -14,8 +18,10 @@ def index():
         if not email:
             return "Please enter an email address."
 
-        payload = {"email": email}
-        response = requests.post(API_URL, json=payload)
+        # Construct the URL with the email and API key
+        url = f"{API_URL}?email={email}&api_key={API_KEY}"
+
+        response = requests.get(url)
 
         if response.status_code == 200:
             try:
@@ -27,6 +33,7 @@ def index():
             return "An error occurred while verifying the email."
 
     return render_template("index.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
